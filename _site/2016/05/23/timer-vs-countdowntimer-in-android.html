@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="shortcut icon" href="/static/img/favicon.ico" />
+        <title>Differentiating Timer class and CountDownTimer class in Android - Test Page</title>
+        <meta name="author" content="Jingzhong" />
+        <meta name="description" content="Differentiating Timer class and CountDownTimer class in Android" />
+        <meta name="keywords" content="Differentiating Timer class and CountDownTimer class in Android, Test Page, " />
+        <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/static/css/syntax.css">
+
+        <!-- Bootstrap core CSS -->
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Fonts -->
+        <link href="//fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic,300,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+        <!-- Custom CSS -->        
+        <link rel="stylesheet" href="/static/css/super-search.css">
+        <link rel="stylesheet" href="/static/css/main.css">
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="col-sm-3">
+                <a href="/"><img id="about" src="/static/img/ocean.jpg" height="75px" width="75px" /></a>
+                <h1 class="author-name">Jingzhong</h1>
+                
+                <div id="about">
+                    I am freelance developer.
+                </div>
+                
+
+                <hr />                
+                <div class="search" id="js-search">
+                  <input type="text" placeholder="(sitemap)~$ type to search" class="search__input form-control" id="js-search__input">
+                  <ul class="search__results" id="js-search__results"></ul>
+                </div>
+                <hr />
+
+                <strong>Navigation</strong><br />
+                    &raquo; <a href="/">Home</a> <br />
+                
+                    &raquo; <a class="about" href="/about/">About Me</a><br />
+                
+                    &raquo; <a class="about" href="/project/">Project</a><br />
+                
+                    &raquo; <a class="about" href="https://github.com/jingzhong1233">Github</a><br />
+                
+                    &raquo; <a class="about" href="/feed.xml">XML Feed</a><br />
+                
+            </div>
+
+            <div class="col-sm-8 col-offset-1">
+                <h1>Differentiating Timer class and CountDownTimer class in Android</h1>
+<span class="time">23 May 2016</span>
+
+<span class="categories">
+    &raquo; 
+</span>
+
+
+<div class="content">
+    <div class="post"><p>Both of these classes are used to schedule repeating execution of codes. The differences between them are summarized as follows.</p>
+
+<ol>
+  <li>
+    <p>CountDownTimer needs a terminating time to be set. In other words, it schedule its terminating time. Timer doesn’t need to set a terminating time beforehand. 
+An analogy is like this: CountdownTimer is like For(some # of iterations){dosomething;}. Timer is like while(true){dosomething;if(something){break;}}</p>
+  </li>
+  <li>
+    <p>CountDownTimer is a non bloking schedule. It means that while it is counting down, the main thread will not be block. At this point, I’m not sure if the CountDownTimer is be executed in a seperate thread. Timer is non to be executing in a seperate thread. As a result, it will not block the execution of the codes in current thread. However, a termination call for a timer is necessary. Otherwiese it will be executing indefinitely.</p>
+  </li>
+  <li>
+    <p>CountDownTimer synchronizes with itself. It means that the scheduled tasks are executed in sequence. If the previous task is not finished while next task comes out, it will hold the second one until the first one is finished. On the other hand, Timer doesn’t have any synchronization mechanism. It simply executes a segment of codes at a regular rate, regardless of whether they are out of order.</p>
+  </li>
+</ol>
+
+<p>Here I provide implementation for future reuse.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="n">AllCountDownTimers</span> <span class="n">m_countDownTimers</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">class</span> <span class="nc">AllCountDownTimers</span><span class="o">{</span>
+        <span class="n">TextView</span> <span class="n">count_down_text_view</span><span class="o">;</span>
+        <span class="kd">public</span> <span class="n">AllCountDownTimers</span><span class="o">(){</span>
+            <span class="n">count_down_text_view</span><span class="o">=(</span><span class="n">TextView</span><span class="o">)</span><span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">countdown_state</span><span class="o">);</span>
+            <span class="n">count_down_text_view</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="n">View</span><span class="o">.</span><span class="na">VISIBLE</span><span class="o">);</span>
+        <span class="o">}</span>
+
+
+
+        <span class="kd">public</span> <span class="n">CountDownTimer</span> <span class="n">cd_prepare</span><span class="o">=</span><span class="k">new</span> <span class="n">CountDownTimer</span><span class="o">(</span><span class="n">m_mapImageView</span><span class="o">.</span><span class="na">PREPARE_TIME</span><span class="o">,</span> <span class="mi">1000</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="n">onTick</span><span class="o">(</span><span class="kt">long</span> <span class="n">l</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">count_down_text_view</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"Data Collection begins in: "</span> <span class="o">+</span> <span class="n">l</span><span class="o">/</span> <span class="mi">1000</span><span class="o">);</span>
+            <span class="o">}</span>
+
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="n">onFinish</span><span class="o">()</span> <span class="o">{</span>
+                <span class="n">remoteSensorManager</span><span class="o">.</span><span class="na">startMeasurement</span><span class="o">(</span><span class="n">current_user_name</span><span class="o">);</span>
+                <span class="n">remoteSensorManager</span><span class="o">.</span><span class="na">labelActivity</span><span class="o">(</span><span class="n">current_gesture</span><span class="o">);</span>
+                <span class="n">cd_brush</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">};</span>
+
+        <span class="kd">public</span> <span class="n">CountDownTimer</span> <span class="n">cd_brush</span><span class="o">=</span><span class="k">new</span> <span class="n">CountDownTimer</span><span class="o">(</span><span class="n">m_mapImageView</span><span class="o">.</span><span class="na">BRUSHING_TIME</span><span class="o">,</span> <span class="mi">1000</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="n">onTick</span><span class="o">(</span><span class="kt">long</span> <span class="n">l</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">count_down_text_view</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"Brushing "</span><span class="o">+</span><span class="n">m_mapImageView</span><span class="o">.</span><span class="na">buttoms_info</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">current_gesture</span><span class="o">).</span><span class="na">name</span>  <span class="o">+</span> <span class="n">l</span><span class="o">/</span> <span class="mi">1000</span><span class="o">);</span>
+            <span class="o">}</span>
+
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="n">onFinish</span><span class="o">()</span> <span class="o">{</span>
+
+                <span class="n">count_down_text_view</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"Brushing Finished"</span><span class="o">);</span>
+                <span class="n">remoteSensorManager</span><span class="o">.</span><span class="na">stopMeasurement</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">};</span>
+
+        <span class="kd">public</span> <span class="kt">void</span> <span class="n">stop_timers</span><span class="o">(){</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">cd_brush</span><span class="o">!=</span><span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">cd_prepare</span><span class="o">!=</span><span class="kc">null</span><span class="o">){</span>
+
+                <span class="n">cd_brush</span><span class="o">.</span><span class="na">cancel</span><span class="o">();</span>
+                <span class="n">cd_prepare</span><span class="o">.</span><span class="na">cancel</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+
+
+        <span class="kd">public</span> <span class="n">Timer</span> <span class="n">m_repeating_timer</span><span class="o">;</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="n">start_train_timer</span><span class="o">(){</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">m_repeating_timer</span><span class="o">!=</span><span class="kc">null</span><span class="o">){</span>
+                <span class="n">m_repeating_timer</span><span class="o">.</span><span class="na">cancel</span><span class="o">();</span>
+                <span class="n">m_repeating_timer</span><span class="o">=</span><span class="kc">null</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">m_repeating_timer</span><span class="o">=</span><span class="k">new</span> <span class="n">Timer</span><span class="o">();</span>
+            <span class="n">m_repeating_timer</span><span class="o">.</span><span class="na">scheduleAtFixedRate</span><span class="o">(</span><span class="k">new</span> <span class="n">TimerTask</span><span class="o">()</span> <span class="o">{</span>
+                <span class="nd">@Override</span>
+                <span class="kd">public</span> <span class="kt">void</span> <span class="n">run</span><span class="o">()</span> <span class="o">{</span>
+
+                    <span class="c1">//Called each time when 1000 milliseconds (1 second) (the period parameter)
+</span>
+                    <span class="n">Intent</span> <span class="n">i</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="n">DataMapKeys</span><span class="o">.</span><span class="na">UPDATE_GESTURE</span><span class="o">);</span>
+                    <span class="n">i</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="s">"gesture_id"</span><span class="o">,</span><span class="n">train_gesture_id</span><span class="o">++);</span>
+                    <span class="k">if</span><span class="o">(</span><span class="n">train_gesture_id</span><span class="o">&gt;</span><span class="n">m_mapImageView</span><span class="o">.</span><span class="na">buttoms_info</span><span class="o">.</span><span class="na">size</span><span class="o">()){</span>
+                        <span class="n">train_gesture_id</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+                        <span class="n">stop_train_timer</span><span class="o">();</span>
+                    <span class="o">}</span>
+
+                    <span class="n">sendBroadcast</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+                    <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span><span class="s">"try to send intent"</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">},</span> <span class="mi">0</span><span class="o">,</span> <span class="n">m_mapImageView</span><span class="o">.</span><span class="na">BRUSHING_TIME</span><span class="o">+</span><span class="n">m_mapImageView</span><span class="o">.</span><span class="na">PREPARE_TIME</span><span class="o">+</span><span class="mi">3000</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="kd">private</span> <span class="kt">void</span> <span class="n">stop_train_timer</span><span class="o">(){</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">m_repeating_timer</span><span class="o">!=</span><span class="kc">null</span><span class="o">){</span>
+
+                <span class="n">m_repeating_timer</span><span class="o">.</span><span class="na">cancel</span><span class="o">();</span>
+                <span class="n">m_repeating_timer</span><span class="o">=</span><span class="kc">null</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">m_countDownTimers</span><span class="o">!=</span><span class="kc">null</span><span class="o">){</span>
+                <span class="n">m_countDownTimers</span><span class="o">.</span><span class="na">stop_timers</span><span class="o">();</span>
+            <span class="o">}</span>
+
+        <span class="o">}</span>
+
+    <span class="o">}</span></code></pre></figure>
+
+<p>The receiver for the Timer thread:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="n">BroadcastReceiver</span> <span class="n">receive_new_gesture</span><span class="o">=</span> <span class="k">new</span> <span class="n">BroadcastReceiver</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="n">onReceive</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">)</span> <span class="o">{</span>
+                <span class="kd">final</span> <span class="kt">int</span> <span class="n">gestureID</span><span class="o">=</span><span class="n">intent</span><span class="o">.</span><span class="na">getExtras</span><span class="o">().</span><span class="na">getInt</span><span class="o">(</span><span class="s">"gesture_id"</span><span class="o">);</span>
+                <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span><span class="s">"gesture received by main "</span><span class="o">+</span> <span class="n">Integer</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">gestureID</span><span class="o">));</span>
+                <span class="n">set_new_gesture</span><span class="o">(</span><span class="n">gestureID</span><span class="o">);</span>
+                <span class="n">current_gesture</span><span class="o">=</span><span class="n">gestureID</span><span class="o">;</span>
+
+                <span class="n">m_countDownTimers</span><span class="o">.</span><span class="na">cd_prepare</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+
+                <span class="o">}</span>
+        <span class="o">};</span></code></pre></figure>
+
+</div>
+</div>
+
+
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+    
+
+
+
+<div class="PageNavigation">
+  
+    <a class="prev" href="/2016/05/22/android-class-communication.html">&laquo; Use Intent to communicate between classes in Android</a>
+  
+  
+    <a class="next" href="/2016/07/21/how-to-setup-camera-network-on-a-beaglebone-board.html">How to setup a wireless camera network using beaglebone &raquo;</a>
+  
+</div>
+
+
+<div class="disqus-comments">
+    <div id="disqus_thread"></div>
+	<script>
+	/**
+	* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+	* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+		*/
+	/*
+	var disqus_config = function () {
+	this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
+	this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+		};
+	*/
+	(function() { // DON'T EDIT BELOW THIS LINE
+	var d = document, s = d.createElement('script');
+
+	s.src = '//jingzhong1233sblog.disqus.com/embed.js';
+
+	s.setAttribute('data-timestamp', +new Date());
+	(d.head || d.body).appendChild(s);
+	})();
+	</script>
+</div>
+
+
+                <footer>
+                    &copy; Jingzhong
+                     
+                    - <a href="https://github.com/jingzhong1233">https://github.com/jingzhong1233</a> - Powered by Jekyll.
+                    
+
+                    <div class="btn-github" style="float:right;">
+                        <iframe src="https://ghbtns.com/github-btn.html?user=jingzhong1233&repo=jingzhong1233.github.io&type=star&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>                    
+                        <iframe src="https://ghbtns.com/github-btn.html?user=jingzhong1233&repo=jingzhong1233.github.io&type=fork&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+                    </div>
+                </footer>
+            </div><!-- end /.col-sm-8 -->
+        </div><!-- end /.container -->
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <script src="/static/js/super-search.js"></script>
+    </body>
+</html>

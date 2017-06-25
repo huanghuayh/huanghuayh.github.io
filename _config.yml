@@ -1,0 +1,23 @@
+title: Test Page
+description: My Personal Blog
+author: Hua Huang
+github: https://github.com/huanghuayh
+about: I am researcher in computer science.
+urls:
+    - text: About Me
+      url: /about/
+    - text: Homepage
+      url: http://huahuang.me
+    # - text: Project
+    #   url: /project/
+    - text: Github
+      url: https://github.com/huanghuayh
+    - text: XML Feed
+      url: /feed.xml
+url: "https://huanghuayh.github.io"
+baseurl: ""
+paginate: 20
+per_page: 20
+paginate_path: "/page:num/"
+markdown: kramdown
+gems: [jekyll-paginate]

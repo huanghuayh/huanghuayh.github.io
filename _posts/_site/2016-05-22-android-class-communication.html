@@ -1,0 +1,25 @@
+<p>The best way is to use content. I find the following example useful.</p>
+
+<p>in the reciving class, add the following broadcast receiver member.</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="n">BroadcastReceiver</span> <span class="n">receive_new_gesture</span><span class="o">=</span> <span class="k">new</span> <span class="n">BroadcastReceiver</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="n">onReceive</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">gestureID</span><span class="o">=</span><span class="n">intent</span><span class="o">.</span><span class="na">getExtras</span><span class="o">().</span><span class="na">getInt</span><span class="o">(</span><span class="s">"gesture_id"</span><span class="o">);</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span><span class="s">"gesture received by main "</span><span class="o">+</span> <span class="n">Integer</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">gestureID</span><span class="o">));</span>
+            <span class="n">set_new_gesture</span><span class="o">(</span><span class="n">gestureID</span><span class="o">);</span>
+
+        <span class="o">}</span>
+    <span class="o">};</span></code></pre></figure>
+
+<p>Then register this receiver in onCreate()</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">registerReceiver</span><span class="o">(</span><span class="n">receive_new_gesture</span><span class="o">,</span> <span class="k">new</span> <span class="n">IntentFilter</span><span class="o">(</span><span class="n">DataMapKeys</span><span class="o">.</span><span class="na">UPDATE_GESTURE</span><span class="o">));</span></code></pre></figure>
+
+<p>To send such a message, the sender class do the following:</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">Intent</span> <span class="n">i</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="n">DataMapKeys</span><span class="o">.</span><span class="na">UPDATE_GESTURE</span><span class="o">);</span>
+<span class="n">i</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="s">"gesture_id"</span><span class="o">,</span><span class="n">gestureID</span><span class="o">);</span>
+<span class="n">sendBroadcast</span><span class="o">(</span><span class="n">i</span><span class="o">);</span></code></pre></figure>
+
+<p>That’s it!</p>
