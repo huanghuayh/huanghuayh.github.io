@@ -7,7 +7,7 @@
 
         <link rel="shortcut icon" href="/static/img/favicon.ico" />
         <title>Use Intent to communicate between classes in Android - Test Page</title>
-        <meta name="author" content="Jingzhong" />
+        <meta name="author" content="Hua Huang" />
         <meta name="description" content="Use Intent to communicate between classes in Android" />
         <meta name="keywords" content="Use Intent to communicate between classes in Android, Test Page, " />
         <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
@@ -30,10 +30,10 @@
         <div class="container">
             <div class="col-sm-3">
                 <a href="/"><img id="about" src="/static/img/ocean.jpg" height="75px" width="75px" /></a>
-                <h1 class="author-name">Jingzhong</h1>
+                <h1 class="author-name">Hua Huang</h1>
                 
                 <div id="about">
-                    I am freelance developer.
+                    I am researcher in computer science.
                 </div>
                 
 
@@ -49,11 +49,7 @@
                 
                     &raquo; <a class="about" href="/about/">About Me</a><br />
                 
-                    &raquo; <a class="about" href="/project/">Project</a><br />
-                
-                    &raquo; <a class="about" href="https://github.com/jingzhong1233">Github</a><br />
-                
-                    &raquo; <a class="about" href="/feed.xml">XML Feed</a><br />
+                    &raquo; <a class="about" href="http://huahuang.me">Homepage</a><br />
                 
             </div>
 
@@ -73,7 +69,7 @@
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="n">BroadcastReceiver</span> <span class="n">receive_new_gesture</span><span class="o">=</span> <span class="k">new</span> <span class="n">BroadcastReceiver</span><span class="o">()</span> <span class="o">{</span>
         <span class="nd">@Override</span>
-        <span class="kd">public</span> <span class="kt">void</span> <span class="n">onReceive</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onReceive</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">)</span> <span class="o">{</span>
             <span class="kt">int</span> <span class="n">gestureID</span><span class="o">=</span><span class="n">intent</span><span class="o">.</span><span class="na">getExtras</span><span class="o">().</span><span class="na">getInt</span><span class="o">(</span><span class="s">"gesture_id"</span><span class="o">);</span>
             <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span><span class="s">"gesture received by main "</span><span class="o">+</span> <span class="n">Integer</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">gestureID</span><span class="o">));</span>
             <span class="n">set_new_gesture</span><span class="o">(</span><span class="n">gestureID</span><span class="o">);</span>
@@ -96,6 +92,18 @@
 </div>
 
 
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
 
     
     
@@ -161,9 +169,9 @@
 
 
                 <footer>
-                    &copy; Jingzhong
+                    &copy; Hua Huang
                      
-                    - <a href="https://github.com/jingzhong1233">https://github.com/jingzhong1233</a> - Powered by Jekyll.
+                    - <a href="https://github.com/huanghuayh">https://github.com/huanghuayh</a> - Powered by Jekyll.
                     
 
                     <div class="btn-github" style="float:right;">

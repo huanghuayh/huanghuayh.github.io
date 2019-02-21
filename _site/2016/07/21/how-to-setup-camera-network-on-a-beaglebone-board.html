@@ -7,7 +7,7 @@
 
         <link rel="shortcut icon" href="/static/img/favicon.ico" />
         <title>How to setup a wireless camera network using beaglebone - Test Page</title>
-        <meta name="author" content="Jingzhong" />
+        <meta name="author" content="Hua Huang" />
         <meta name="description" content="How to setup a wireless camera network using beaglebone" />
         <meta name="keywords" content="How to setup a wireless camera network using beaglebone, Test Page, " />
         <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
@@ -30,10 +30,10 @@
         <div class="container">
             <div class="col-sm-3">
                 <a href="/"><img id="about" src="/static/img/ocean.jpg" height="75px" width="75px" /></a>
-                <h1 class="author-name">Jingzhong</h1>
+                <h1 class="author-name">Hua Huang</h1>
                 
                 <div id="about">
-                    I am freelance developer.
+                    I am researcher in computer science.
                 </div>
                 
 
@@ -49,11 +49,7 @@
                 
                     &raquo; <a class="about" href="/about/">About Me</a><br />
                 
-                    &raquo; <a class="about" href="/project/">Project</a><br />
-                
-                    &raquo; <a class="about" href="https://github.com/jingzhong1233">Github</a><br />
-                
-                    &raquo; <a class="about" href="/feed.xml">XML Feed</a><br />
+                    &raquo; <a class="about" href="http://huahuang.me">Homepage</a><br />
                 
             </div>
 
@@ -83,7 +79,7 @@ if the following error occurs, it means that you have used the same ip address f
 
 <p>(optional) use the following command should the error occurs</p>
 
-<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    ssh-keygen -R 192.168.7.2 -f /home/harry/.ssh/known_hosts
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell">    ssh-keygen <span class="nt">-R</span> 192.168.7.2 <span class="nt">-f</span> /home/harry/.ssh/known_hosts
   </code></pre></figure>
 
 <ul>
@@ -98,16 +94,16 @@ route add default gw 192.168.7.1
 
 <p>In the linux console of host system type</p>
 
-<figure class="highlight"><pre><code class="language-shell" data-lang="shell">sudo su
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">sudo </span>su
 <span class="c">#wlp3s0 is my internet facing interface, enp0s20u1 is the BeagleBone USB connection</span>
 ifconfig eth5 192.168.7.1
-iptables --table nat --append POSTROUTING --out-interface wlp3s0 -j MASQUERADE
-iptables --append FORWARD --in-interface enp0s20u1 -j ACCEPT
-<span class="nb">echo </span>1 &gt; /proc/sys/net/ipv4/ip_forward</code></pre></figure>
+iptables <span class="nt">--table</span> nat <span class="nt">--append</span> POSTROUTING <span class="nt">--out-interface</span> wlp3s0 <span class="nt">-j</span> MASQUERADE
+iptables <span class="nt">--append</span> FORWARD <span class="nt">--in-interface</span> enp0s20u1 <span class="nt">-j</span> ACCEPT
+<span class="nb">echo </span>1 <span class="o">&gt;</span> /proc/sys/net/ipv4/ip_forward</code></pre></figure>
 
 <p>In case network not accessible then type the following in BBB terminal</p>
 
-<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">echo</span> <span class="s2">"nameserver 8.8.8.8"</span> &gt;&gt; /etc/resolv.conf</code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nb">echo</span> <span class="s2">"nameserver 8.8.8.8"</span> <span class="o">&gt;&gt;</span> /etc/resolv.conf</code></pre></figure>
 
 <ul>
   <li>
@@ -158,9 +154,8 @@ fatal: HTTP request failed</p>
     ifconfig
     </code></pre></figure>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>if successful, we will see something like what follows:
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if successful, we will see something like what follows:
+</code></pre></div></div>
 
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell">    wlan0     Link encap:Ethernet  HWaddr 00:e0:4c:0b:e4:bf  
               inet addr:172.20.249.41  Bcast:172.20.251.255  Mask:255.255.252.0
@@ -172,9 +167,8 @@ fatal: HTTP request failed</p>
               RX bytes:3801 <span class="o">(</span>3.7 KiB<span class="o">)</span>  TX bytes:6711 <span class="o">(</span>6.5 KiB<span class="o">)</span>
     </code></pre></figure>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>copy the ip address: 172.20.249.41
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>copy the ip address: 172.20.249.41
+</code></pre></div></div>
 
 <ul>
   <li>Remotely control the camera node using ssh. In another terminal, do the following</li>
@@ -189,6 +183,18 @@ fatal: HTTP request failed</p>
 </div>
 
 
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
 
     
     
@@ -254,9 +260,9 @@ fatal: HTTP request failed</p>
 
 
                 <footer>
-                    &copy; Jingzhong
+                    &copy; Hua Huang
                      
-                    - <a href="https://github.com/jingzhong1233">https://github.com/jingzhong1233</a> - Powered by Jekyll.
+                    - <a href="https://github.com/huanghuayh">https://github.com/huanghuayh</a> - Powered by Jekyll.
                     
 
                     <div class="btn-github" style="float:right;">

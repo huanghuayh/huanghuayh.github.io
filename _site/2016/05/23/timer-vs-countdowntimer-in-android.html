@@ -7,7 +7,7 @@
 
         <link rel="shortcut icon" href="/static/img/favicon.ico" />
         <title>Differentiating Timer class and CountDownTimer class in Android - Test Page</title>
-        <meta name="author" content="Jingzhong" />
+        <meta name="author" content="Hua Huang" />
         <meta name="description" content="Differentiating Timer class and CountDownTimer class in Android" />
         <meta name="keywords" content="Differentiating Timer class and CountDownTimer class in Android, Test Page, " />
         <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
@@ -30,10 +30,10 @@
         <div class="container">
             <div class="col-sm-3">
                 <a href="/"><img id="about" src="/static/img/ocean.jpg" height="75px" width="75px" /></a>
-                <h1 class="author-name">Jingzhong</h1>
+                <h1 class="author-name">Hua Huang</h1>
                 
                 <div id="about">
-                    I am freelance developer.
+                    I am researcher in computer science.
                 </div>
                 
 
@@ -49,11 +49,7 @@
                 
                     &raquo; <a class="about" href="/about/">About Me</a><br />
                 
-                    &raquo; <a class="about" href="/project/">Project</a><br />
-                
-                    &raquo; <a class="about" href="https://github.com/jingzhong1233">Github</a><br />
-                
-                    &raquo; <a class="about" href="/feed.xml">XML Feed</a><br />
+                    &raquo; <a class="about" href="http://huahuang.me">Homepage</a><br />
                 
             </div>
 
@@ -87,7 +83,7 @@ An analogy is like this: CountdownTimer is like For(some # of iterations){dosome
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">private</span> <span class="n">AllCountDownTimers</span> <span class="n">m_countDownTimers</span><span class="o">;</span>
     <span class="kd">private</span> <span class="kd">class</span> <span class="nc">AllCountDownTimers</span><span class="o">{</span>
         <span class="n">TextView</span> <span class="n">count_down_text_view</span><span class="o">;</span>
-        <span class="kd">public</span> <span class="n">AllCountDownTimers</span><span class="o">(){</span>
+        <span class="kd">public</span> <span class="nf">AllCountDownTimers</span><span class="o">(){</span>
             <span class="n">count_down_text_view</span><span class="o">=(</span><span class="n">TextView</span><span class="o">)</span><span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">countdown_state</span><span class="o">);</span>
             <span class="n">count_down_text_view</span><span class="o">.</span><span class="na">setVisibility</span><span class="o">(</span><span class="n">View</span><span class="o">.</span><span class="na">VISIBLE</span><span class="o">);</span>
         <span class="o">}</span>
@@ -96,12 +92,12 @@ An analogy is like this: CountdownTimer is like For(some # of iterations){dosome
 
         <span class="kd">public</span> <span class="n">CountDownTimer</span> <span class="n">cd_prepare</span><span class="o">=</span><span class="k">new</span> <span class="n">CountDownTimer</span><span class="o">(</span><span class="n">m_mapImageView</span><span class="o">.</span><span class="na">PREPARE_TIME</span><span class="o">,</span> <span class="mi">1000</span><span class="o">)</span> <span class="o">{</span>
             <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="n">onTick</span><span class="o">(</span><span class="kt">long</span> <span class="n">l</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onTick</span><span class="o">(</span><span class="kt">long</span> <span class="n">l</span><span class="o">)</span> <span class="o">{</span>
                 <span class="n">count_down_text_view</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"Data Collection begins in: "</span> <span class="o">+</span> <span class="n">l</span><span class="o">/</span> <span class="mi">1000</span><span class="o">);</span>
             <span class="o">}</span>
 
             <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="n">onFinish</span><span class="o">()</span> <span class="o">{</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onFinish</span><span class="o">()</span> <span class="o">{</span>
                 <span class="n">remoteSensorManager</span><span class="o">.</span><span class="na">startMeasurement</span><span class="o">(</span><span class="n">current_user_name</span><span class="o">);</span>
                 <span class="n">remoteSensorManager</span><span class="o">.</span><span class="na">labelActivity</span><span class="o">(</span><span class="n">current_gesture</span><span class="o">);</span>
                 <span class="n">cd_brush</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
@@ -110,19 +106,19 @@ An analogy is like this: CountdownTimer is like For(some # of iterations){dosome
 
         <span class="kd">public</span> <span class="n">CountDownTimer</span> <span class="n">cd_brush</span><span class="o">=</span><span class="k">new</span> <span class="n">CountDownTimer</span><span class="o">(</span><span class="n">m_mapImageView</span><span class="o">.</span><span class="na">BRUSHING_TIME</span><span class="o">,</span> <span class="mi">1000</span><span class="o">)</span> <span class="o">{</span>
             <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="n">onTick</span><span class="o">(</span><span class="kt">long</span> <span class="n">l</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onTick</span><span class="o">(</span><span class="kt">long</span> <span class="n">l</span><span class="o">)</span> <span class="o">{</span>
                 <span class="n">count_down_text_view</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"Brushing "</span><span class="o">+</span><span class="n">m_mapImageView</span><span class="o">.</span><span class="na">buttoms_info</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">current_gesture</span><span class="o">).</span><span class="na">name</span>  <span class="o">+</span> <span class="n">l</span><span class="o">/</span> <span class="mi">1000</span><span class="o">);</span>
             <span class="o">}</span>
 
             <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="n">onFinish</span><span class="o">()</span> <span class="o">{</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onFinish</span><span class="o">()</span> <span class="o">{</span>
 
                 <span class="n">count_down_text_view</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"Brushing Finished"</span><span class="o">);</span>
                 <span class="n">remoteSensorManager</span><span class="o">.</span><span class="na">stopMeasurement</span><span class="o">();</span>
             <span class="o">}</span>
         <span class="o">};</span>
 
-        <span class="kd">public</span> <span class="kt">void</span> <span class="n">stop_timers</span><span class="o">(){</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">stop_timers</span><span class="o">(){</span>
             <span class="k">if</span><span class="o">(</span><span class="n">cd_brush</span><span class="o">!=</span><span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">cd_prepare</span><span class="o">!=</span><span class="kc">null</span><span class="o">){</span>
 
                 <span class="n">cd_brush</span><span class="o">.</span><span class="na">cancel</span><span class="o">();</span>
@@ -133,7 +129,7 @@ An analogy is like this: CountdownTimer is like For(some # of iterations){dosome
 
 
         <span class="kd">public</span> <span class="n">Timer</span> <span class="n">m_repeating_timer</span><span class="o">;</span>
-        <span class="kd">public</span> <span class="kt">void</span> <span class="n">start_train_timer</span><span class="o">(){</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">start_train_timer</span><span class="o">(){</span>
             <span class="k">if</span><span class="o">(</span><span class="n">m_repeating_timer</span><span class="o">!=</span><span class="kc">null</span><span class="o">){</span>
                 <span class="n">m_repeating_timer</span><span class="o">.</span><span class="na">cancel</span><span class="o">();</span>
                 <span class="n">m_repeating_timer</span><span class="o">=</span><span class="kc">null</span><span class="o">;</span>
@@ -141,7 +137,7 @@ An analogy is like this: CountdownTimer is like For(some # of iterations){dosome
             <span class="n">m_repeating_timer</span><span class="o">=</span><span class="k">new</span> <span class="n">Timer</span><span class="o">();</span>
             <span class="n">m_repeating_timer</span><span class="o">.</span><span class="na">scheduleAtFixedRate</span><span class="o">(</span><span class="k">new</span> <span class="n">TimerTask</span><span class="o">()</span> <span class="o">{</span>
                 <span class="nd">@Override</span>
-                <span class="kd">public</span> <span class="kt">void</span> <span class="n">run</span><span class="o">()</span> <span class="o">{</span>
+                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
 
                     <span class="c1">//Called each time when 1000 milliseconds (1 second) (the period parameter)
 </span>
@@ -158,7 +154,7 @@ An analogy is like this: CountdownTimer is like For(some # of iterations){dosome
             <span class="o">},</span> <span class="mi">0</span><span class="o">,</span> <span class="n">m_mapImageView</span><span class="o">.</span><span class="na">BRUSHING_TIME</span><span class="o">+</span><span class="n">m_mapImageView</span><span class="o">.</span><span class="na">PREPARE_TIME</span><span class="o">+</span><span class="mi">3000</span><span class="o">);</span>
         <span class="o">}</span>
 
-        <span class="kd">private</span> <span class="kt">void</span> <span class="n">stop_train_timer</span><span class="o">(){</span>
+        <span class="kd">private</span> <span class="kt">void</span> <span class="nf">stop_train_timer</span><span class="o">(){</span>
             <span class="k">if</span><span class="o">(</span><span class="n">m_repeating_timer</span><span class="o">!=</span><span class="kc">null</span><span class="o">){</span>
 
                 <span class="n">m_repeating_timer</span><span class="o">.</span><span class="na">cancel</span><span class="o">();</span>
@@ -176,7 +172,7 @@ An analogy is like this: CountdownTimer is like For(some # of iterations){dosome
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="n">BroadcastReceiver</span> <span class="n">receive_new_gesture</span><span class="o">=</span> <span class="k">new</span> <span class="n">BroadcastReceiver</span><span class="o">()</span> <span class="o">{</span>
             <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="n">onReceive</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onReceive</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">intent</span><span class="o">)</span> <span class="o">{</span>
                 <span class="kd">final</span> <span class="kt">int</span> <span class="n">gestureID</span><span class="o">=</span><span class="n">intent</span><span class="o">.</span><span class="na">getExtras</span><span class="o">().</span><span class="na">getInt</span><span class="o">(</span><span class="s">"gesture_id"</span><span class="o">);</span>
                 <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span><span class="s">"gesture received by main "</span><span class="o">+</span> <span class="n">Integer</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">gestureID</span><span class="o">));</span>
                 <span class="n">set_new_gesture</span><span class="o">(</span><span class="n">gestureID</span><span class="o">);</span>
@@ -191,6 +187,18 @@ An analogy is like this: CountdownTimer is like For(some # of iterations){dosome
 </div>
 
 
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
 
     
     
@@ -256,9 +264,9 @@ An analogy is like this: CountdownTimer is like For(some # of iterations){dosome
 
 
                 <footer>
-                    &copy; Jingzhong
+                    &copy; Hua Huang
                      
-                    - <a href="https://github.com/jingzhong1233">https://github.com/jingzhong1233</a> - Powered by Jekyll.
+                    - <a href="https://github.com/huanghuayh">https://github.com/huanghuayh</a> - Powered by Jekyll.
                     
 
                     <div class="btn-github" style="float:right;">

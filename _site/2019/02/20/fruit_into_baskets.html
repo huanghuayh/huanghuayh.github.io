@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="shortcut icon" href="/static/img/favicon.ico" />
+        <title>Algorithm Problem Fruit Into Basket - Test Page</title>
+        <meta name="author" content="Hua Huang" />
+        <meta name="description" content="Algorithm Problem Fruit Into Basket" />
+        <meta name="keywords" content="Algorithm Problem Fruit Into Basket, Test Page, " />
+        <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/static/css/syntax.css">
+
+        <!-- Bootstrap core CSS -->
+        <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Fonts -->
+        <link href="//fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic,300,400italic,700&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+        <!-- Custom CSS -->        
+        <link rel="stylesheet" href="/static/css/super-search.css">
+        <link rel="stylesheet" href="/static/css/main.css">
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="col-sm-3">
+                <a href="/"><img id="about" src="/static/img/ocean.jpg" height="75px" width="75px" /></a>
+                <h1 class="author-name">Hua Huang</h1>
+                
+                <div id="about">
+                    I am researcher in computer science.
+                </div>
+                
+
+                <hr />                
+                <div class="search" id="js-search">
+                  <input type="text" placeholder="(sitemap)~$ type to search" class="search__input form-control" id="js-search__input">
+                  <ul class="search__results" id="js-search__results"></ul>
+                </div>
+                <hr />
+
+                <strong>Navigation</strong><br />
+                    &raquo; <a href="/">Home</a> <br />
+                
+                    &raquo; <a class="about" href="/about/">About Me</a><br />
+                
+                    &raquo; <a class="about" href="http://huahuang.me">Homepage</a><br />
+                
+            </div>
+
+            <div class="col-sm-8 col-offset-1">
+                <h1>Algorithm Problem Fruit Into Basket</h1>
+<span class="time">20 Feb 2019</span>
+
+<span class="categories">
+    &raquo; 
+</span>
+
+
+<div class="content">
+    <div class="post"><h2 id="problem-description">Problem Description</h2>
+
+<p>In a row of trees, the i-th tree produces fruit with type tree[i].</p>
+
+<p>You start at any tree of your choice, then repeatedly perform the following steps:</p>
+
+<ul>
+  <li>Add one piece of fruit from this tree to your baskets.  If you cannot, stop.</li>
+  <li>Move to the next tree to the right of the current tree.  If there is no tree to the right, stop.</li>
+</ul>
+
+<p>Note that you do not have any choice after the initial choice of starting tree: you must perform step 1, then step 2, then back to step 1, then step 2, and so on until you stop.</p>
+
+<p>You have two baskets, and each basket can carry any quantity of fruit, but you want each basket to only carry one type of fruit each.</p>
+
+<p>What is the total amount of fruit you can collect with this procedure?</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Example 1:
+
+Input: [1,2,1]
+Output: 3
+Explanation: We can collect [1,2,1].
+
+Example 2:
+
+Input: [0,1,2,2]
+Output: 3
+Explanation: We can collect [1,2,2].
+If we started at the first tree, we would only collect [0, 1].
+
+Example 3:
+
+Input: [1,2,3,2,2]
+Output: 4
+Explanation: We can collect [2,3,2,2].
+If we started at the first tree, we would only collect [1, 2].
+
+Example 4:
+
+Input: [3,3,3,1,2,1,1,2,3,3,4]
+Output: 5
+Explanation: We can collect [1,2,1,1,2].
+If we started at the first tree or the eighth tree, we would only collect 4 fruits.
+</code></pre></div></div>
+
+<h2 id="solution">Solution</h2>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">totalFruit</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">tree</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">basket</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">&lt;&gt;();</span> 
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">pos</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">&lt;&gt;();</span> 
+        
+        <span class="kt">int</span> <span class="n">max_fruit</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">cur_len</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">tree</span><span class="o">.</span><span class="na">length</span><span class="o">;</span><span class="n">i</span><span class="o">++){</span>
+            <span class="k">if</span> <span class="o">(!</span><span class="n">basket</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">tree</span><span class="o">[</span><span class="n">i</span><span class="o">])</span> <span class="o">&amp;&amp;</span> <span class="n">basket</span><span class="o">.</span><span class="na">size</span><span class="o">()&gt;=</span><span class="mi">2</span><span class="o">){</span>
+                <span class="n">basket</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+                <span class="kt">int</span> <span class="n">prev_pos</span><span class="o">=</span><span class="n">pos</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+                <span class="n">cur_len</span><span class="o">=</span><span class="n">i</span><span class="o">-</span><span class="n">prev_pos</span><span class="o">;</span>
+                
+                <span class="k">if</span><span class="o">(</span><span class="n">cur_len</span><span class="o">&gt;</span><span class="n">max_fruit</span><span class="o">){</span>
+                    <span class="n">max_fruit</span><span class="o">=</span><span class="n">cur_len</span><span class="o">;</span>
+                <span class="o">}</span>
+                
+                
+                
+            <span class="o">}</span>
+            <span class="k">else</span><span class="o">{</span>
+                <span class="n">cur_len</span><span class="o">++;</span>
+                <span class="k">if</span><span class="o">(</span><span class="n">cur_len</span><span class="o">&gt;</span><span class="n">max_fruit</span><span class="o">){</span>
+                    <span class="n">max_fruit</span><span class="o">=</span><span class="n">cur_len</span><span class="o">;</span>
+                <span class="o">}</span>
+                
+                <span class="k">if</span><span class="o">(</span><span class="n">basket</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">tree</span><span class="o">[</span><span class="n">i</span><span class="o">])){</span>
+                    <span class="kt">int</span> <span class="n">idx</span><span class="o">=</span><span class="n">basket</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="n">tree</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+                    <span class="n">basket</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">idx</span><span class="o">);</span>
+                    <span class="n">pos</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">idx</span><span class="o">);</span>
+                <span class="o">}</span>
+
+                
+                
+            <span class="o">}</span>
+            
+            <span class="n">basket</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">tree</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+            <span class="n">pos</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+        <span class="o">}</span>
+        
+        
+        <span class="k">return</span> <span class="n">max_fruit</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="comments">Comments</h2>
+
+<p>This is a good example of dynamic programming.</p>
+</div>
+</div>
+
+
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+    
+
+
+
+<div class="PageNavigation">
+  
+    <a class="prev" href="/2017/09/24/managing_multiple_teensy_in_serial_ports.html">&laquo; Assign Names To Each Teensy Board in Serial Ports</a>
+  
+  
+</div>
+
+
+<div class="disqus-comments">
+    <div id="disqus_thread"></div>
+	<script>
+	/**
+	* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+	* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+		*/
+	/*
+	var disqus_config = function () {
+	this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
+	this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+		};
+	*/
+	(function() { // DON'T EDIT BELOW THIS LINE
+	var d = document, s = d.createElement('script');
+
+	s.src = '//jingzhong1233sblog.disqus.com/embed.js';
+
+	s.setAttribute('data-timestamp', +new Date());
+	(d.head || d.body).appendChild(s);
+	})();
+	</script>
+</div>
+
+
+                <footer>
+                    &copy; Hua Huang
+                     
+                    - <a href="https://github.com/huanghuayh">https://github.com/huanghuayh</a> - Powered by Jekyll.
+                    
+
+                    <div class="btn-github" style="float:right;">
+                        <iframe src="https://ghbtns.com/github-btn.html?user=jingzhong1233&repo=jingzhong1233.github.io&type=star&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>                    
+                        <iframe src="https://ghbtns.com/github-btn.html?user=jingzhong1233&repo=jingzhong1233.github.io&type=fork&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>
+                    </div>
+                </footer>
+            </div><!-- end /.col-sm-8 -->
+        </div><!-- end /.container -->
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="/static/js/bootstrap.min.js"></script>
+        <script src="/static/js/super-search.js"></script>
+    </body>
+</html>

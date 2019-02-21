@@ -6,10 +6,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="shortcut icon" href="/static/img/favicon.ico" />
-        <title>WiKi - Test Page</title>
-        <meta name="author" content="Jingzhong" />
-        <meta name="description" content="WiKi" />
-        <meta name="keywords" content="WiKi, Test Page, " />
+        <title>Assign Names To Each Teensy Board in Serial Ports - Test Page</title>
+        <meta name="author" content="Hua Huang" />
+        <meta name="description" content="Assign Names To Each Teensy Board in Serial Ports" />
+        <meta name="keywords" content="Assign Names To Each Teensy Board in Serial Ports, Test Page, " />
         <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
 
         <!-- syntax highlighting CSS -->
@@ -30,10 +30,10 @@
         <div class="container">
             <div class="col-sm-3">
                 <a href="/"><img id="about" src="/static/img/ocean.jpg" height="75px" width="75px" /></a>
-                <h1 class="author-name">Jingzhong</h1>
+                <h1 class="author-name">Hua Huang</h1>
                 
                 <div id="about">
-                    I am freelance developer.
+                    I am researcher in computer science.
                 </div>
                 
 
@@ -49,17 +49,13 @@
                 
                     &raquo; <a class="about" href="/about/">About Me</a><br />
                 
-                    &raquo; <a class="about" href="/project/">Project</a><br />
-                
-                    &raquo; <a class="about" href="https://github.com/jingzhong1233">Github</a><br />
-                
-                    &raquo; <a class="about" href="/feed.xml">XML Feed</a><br />
+                    &raquo; <a class="about" href="http://huahuang.me">Homepage</a><br />
                 
             </div>
 
             <div class="col-sm-8 col-offset-1">
-                <h1>WiKi</h1>
-<span class="time">21 May 2016</span>
+                <h1>Assign Names To Each Teensy Board in Serial Ports</h1>
+<span class="time">24 Sep 2017</span>
 
 <span class="categories">
     &raquo; 
@@ -67,22 +63,59 @@
 
 
 <div class="content">
-    <div class="post"><p>How to rescue a freezed Linux?</p>
+    <div class="post"><p>##First Step: find a unique identifiers for the devices. We can select the serial ID.</p>
 
-<ol>
-  <li>Ctrl + Alt + Backspace</li>
-  <li>‘Alt + SysRq + K’ . For most desktop, it means ‘Alt + PrintScreen (possibly together with the ‘Fn‘ button) + K’</li>
-  <li>Press and hold Alt + SysRq, then one by one, press and release the following characters in the respective order: ‘R’ ‘E’ ‘I’ ‘S’ ‘U’ ‘B’. The system will perform a series of tasks and finally reboot the computer</li>
-</ol>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>udevadm info <span class="nt">-a</span> <span class="nt">-n</span> /dev/ttyACM0 | <span class="nb">grep</span> <span class="s1">'{serial}'</span> | head <span class="nt">-n1</span>
+        ATTRS<span class="o">{</span>serial<span class="o">}==</span><span class="s2">"3968360"</span>
+</code></pre></div></div>
 
-<p>How to run jekyll locally? In a terminal, use:</p>
+<p>##Second Step: create symbolic link for the serial devices</p>
 
-<figure class="highlight"><pre><code class="language-shell" data-lang="shell">bundle <span class="nb">exec </span>jekyll serve</code></pre></figure>
+<p>In /etc/udev/rules.d/, edit the file 49-teensy.rules , add the following lines there.</p>
 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">KERNEL</span><span class="o">==</span><span class="s2">"ttyACM0"</span>, ATTRS<span class="o">{</span>idVendor<span class="o">}==</span><span class="s2">"16c0"</span>, ATTRS<span class="o">{</span>idProduct<span class="o">}==</span><span class="s2">"04[789]?"</span>, ATTRS<span class="o">{</span>serial<span class="o">}==</span><span class="s2">"3968360"</span>,SYMLINK+<span class="o">=</span><span class="s2">"channel1"</span>
+<span class="nv">KERNEL</span><span class="o">==</span><span class="s2">"ttyACM1"</span>, ATTRS<span class="o">{</span>idVendor<span class="o">}==</span><span class="s2">"16c0"</span>, ATTRS<span class="o">{</span>idProduct<span class="o">}==</span><span class="s2">"04[789]?"</span>, ATTRS<span class="o">{</span>serial<span class="o">}==</span><span class="s2">"4120870"</span>,SYMLINK+<span class="o">=</span><span class="s2">"channel2"</span>
+</code></pre></div></div>
+
+<p>##Third Step: activate the rule and check</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>udevadm trigger
+<span class="nb">ls</span> <span class="nt">-l</span> channel1
+    lrwxrwxrwx 1 root root 7 Jun 11 14:21 channel1 -&gt; ttyACM0
+<span class="nb">ls</span> <span class="nt">-l</span> channel2
+    lrwxrwxrwx 1 root root 7 Jun 11 14:21 channel2 -&gt; ttyACM1
+
+</code></pre></div></div>
 </div>
 </div>
 
 
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
 
     
     
@@ -99,10 +132,10 @@
 
 <div class="PageNavigation">
   
-    <a class="prev" href="/jekyll/2013/02/19/welcome-to-jekyll.html">&laquo; Welcome to Jekyll!</a>
+    <a class="prev" href="/2017/05/24/dynamic-programming-techniques.html">&laquo; Summarize Dynamic Programming Techniques</a>
   
   
-    <a class="next" href="/2016/05/22/android-class-communication.html">How I communicate between classes in Android &raquo;</a>
+    <a class="next" href="/2019/02/20/fruit_into_baskets.html">Algorithm Problem Fruit Into Basket &raquo;</a>
   
 </div>
 
@@ -133,9 +166,9 @@
 
 
                 <footer>
-                    &copy; Jingzhong
+                    &copy; Hua Huang
                      
-                    - <a href="https://github.com/jingzhong1233">https://github.com/jingzhong1233</a> - Powered by Jekyll.
+                    - <a href="https://github.com/huanghuayh">https://github.com/huanghuayh</a> - Powered by Jekyll.
                     
 
                     <div class="btn-github" style="float:right;">
